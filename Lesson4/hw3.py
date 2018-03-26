@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+from __future__ import unicode_literals, print_function
+import re
+
+'''
+Read in the 'show_version.txt' file. From this file, use regular expressions to extract the OS version, serial number, and configuration register values.
+
+Your output should look as follows:
+OS Version: 15.4(2)T1      
+Serial Number: FTX0000038X    
+​Config Register: 0x2102 
+'''
+
+show_version = """
+Cisco 881 (MPC8300) processor (revision 1.0) with 236544K/25600K bytes of memory.
+Processor board ID FTX0000038X
+5 FastEthernet interfaces
+1 Virtual Private Network (VPN) Module
+256K bytes of non-volatile configuration memory.
+126000K bytes of ATA CompactFlash (Read/Write)
+"""
+
+match = re.search(r"^Cisco (?P<model>\S+).* with (?P<memory>\S+) bytes of memory.* board ID (?P<serial>\S+)", show_version, flags=re.M)
+serial = match.groupdict()['serial']
+model = match.groupdict()['model']
+memory = match.groupdict()['memory']
+
+print()
+print('-' * 80)
+print("serial: {}".format(serial))
+print("Model: {}".format(model))
+print("Memory: {}".format(memory))
+print('-' * 80)
+print()
